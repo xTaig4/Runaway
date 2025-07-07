@@ -11,14 +11,17 @@ public class ParallexEffect : MonoBehaviour
 
     public float[] parallaxMultipliers = new float[5];
 
+    public bool moveBackgrounds = true;
+
     private GameObject parent;
     private List<GameObject> backgrounds;
     private List<Vector2> backgroundPositions;
     private Vector2[] startPositions = new Vector2[5];
+    private Camera mainCamera;
 
     void Start()
     {
-        
+        mainCamera = Camera.main;
         parent = this.gameObject;
         backgrounds = GetAllChildren(parent);
         backgroundPositions = new List<Vector2>();
@@ -26,7 +29,10 @@ public class ParallexEffect : MonoBehaviour
         for (int i = 0; i < backgrounds.Count; i++)
         {
             backgroundPositions.Add(backgrounds[i].transform.position);
-            startPositions[i] = backgrounds[i].transform.position;
+            if (moveBackgrounds)
+            {
+                startPositions[i] = backgrounds[i].transform.position;
+            }
         }
     }
 
@@ -46,8 +52,6 @@ public class ParallexEffect : MonoBehaviour
                 background.transform.position = backgroundPosition;
             }
         }
-
-        Debug.Log("xMovement: " + xMovement);
     }
 
     public List<GameObject> GetAllChildren(GameObject parent)
